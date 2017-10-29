@@ -1,13 +1,25 @@
 var inquirer = require('inquirer')
+var game = require('./chooseWord.js')
 var word = require('./word.js')
-var number = 0;
-var chosen = 'arch itecture'
-var guessWord = new word(chosen)
-var chance = guessWord.length()
+var chosen 
+var number 
+var guessWord 
+var chance 
 var guessed = []
+
+function gameon(){
+	var newround = new game();
+	number = newround.number
+	chosen = newround.chosen
+	guessWord = new word(chosen)
+	chance = guessWord.length()
+	console.log(chosen)
+	show()
+}
 
 function show(){
 	//console.log (guessWord.letterArray().join(" "))
+	//console.log(chosen)
 	if(number < chance){
 		var questions = question();
 		inquirer.prompt(questions).then(function(answer){
@@ -66,16 +78,20 @@ function newgame(){
 	var questions = [
 			{	
 			name:'newGame',
-			type:'confirmation',
-			message: `${chosen.split("").join(" ")} \n Do you want a new Game?`
+			type:'confirm',
+			message: `${chosen.split("").join(" ")} \n Do you want a new Game?`,
+			default: false		
 		}
 	]
 
 	inquirer.prompt(questions).then(function (answer){
 		if(answer.newGame){
 			console.log("new gaming")
+			gameon();
+			
 		}
 	})
 }
-show();
+
+gameon()
 //trial
