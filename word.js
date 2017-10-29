@@ -2,6 +2,7 @@ var letter = require('./letter.js');
 
 var word = function(x){
 	this.target = x;
+	//this.orig = x.split("")
 	this.array = x.split("");
 	this.left = this.length();
 	this.letters = this.letterObjects()
@@ -45,14 +46,12 @@ word.prototype.letterArray = function(ab){
 
 word.prototype.checkLetter = function(y){
 //get indexes of the letter if corrected
-	var array = this.array		
-	var indexes = array.reduce(function(a,v,i){
+			
+	var indexes = this.array.reduce(function(a,v,i){
 		if (v === y){ a.push(i)};
-		array.split(i,0)
 		return a
 	},[])
-	
-	this.array = array;
+
 	if (indexes.length > 0){
 //regenerate and displa letter Array
 
@@ -62,7 +61,7 @@ word.prototype.checkLetter = function(y){
 		this.letters[indexes[i]].show = true;
 	
 		this.letterArray()
-		console.log(this.left + '__________________')
+		//console.log(this.left + '__________________')
 
 		}
 		//console.log(this.tobeDispalyed)
@@ -84,7 +83,7 @@ word.prototype.result = function(){
 
 module.exports = word
 
-// var trail = new word("architect new")
+// var trail = new word("arch new")
 // console.log(trail.length());
 //trail.checkLetter('a')
 

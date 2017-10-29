@@ -3,28 +3,51 @@ var word = require('./word.js')
 var number = 0;
 var chosen = 'arch itecture'
 var guessWord = new word(chosen)
+var chance = guessWord.length()
+var guessed = []
 
 function show(){
 	//console.log (guessWord.letterArray().join(" "))
-	if(number < guessWord.length()){
+	if(number < chance){
 		var questions = question();
 		inquirer.prompt(questions).then(function(answer){
-			
-			guessWord.checkLetter(answer.guess);
-			number ++;
-			
-			if(guessWord.win != true){
-				console.log(`You have ${guessWord.length - number} chances left`)
-				show()
-			}else{
-				console.log(chosen)
+	//check if user inputed this before, so that people can not input the same correct letter to win
+			 
+			function checkBefore(){
+				for (var i = 0; i < guessed.length; i++) {
+					if(guessed[i] === answer.guess){
+						return true
+					}
+				}
 			}
-			
+
+			if(checkBefore()){ 
+				console.log("you have typed this")
+				number++;
+				console.log(`You have ${chance - number} chances left`)
+				show()
+			}
+
+			else{
+				guessed.push(answer.guess)
+
+				guessWord.checkLetter(answer.guess);
+				number ++;
+				
+				if(guessWord.win != true){
+					console.log(`You have ${chance - number} chances left`)
+					show()
+				}else{
+					console.log(chosen)
+					newgame()
+				}
+			}
 		})
 		
 
 	}else{
 	console.log("You lose")
+	newgame();
 }
 }
 
@@ -44,7 +67,7 @@ function newgame(){
 			{	
 			name:'newGame',
 			type:'confirmation',
-			message: `chosen \n Do you want a new Game?`
+			message: `${chosen.split("").join(" ")} \n Do you want a new Game?`
 		}
 	]
 
