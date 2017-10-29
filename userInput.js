@@ -13,7 +13,7 @@ function gameon(){
 	chosen = newround.chosen
 	guessWord = new word(chosen)
 	chance = guessWord.length()
-	console.log(chosen)
+	//console.log(chosen)
 	show()
 }
 
